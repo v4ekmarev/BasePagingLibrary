@@ -4,15 +4,13 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
+import com.paging.basepage.paging.ListViewState
+import com.paging.basepage.paging.NetworkState
 import com.paging.basepaginglibrary.Injection
-import com.paging.basepaginglibrary.ui.base.paging.ListViewState
-import com.paging.basepaginglibrary.ui.base.paging.NetworkState
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
 import com.paging.basepaginglibrary.ui.main.paging.CharactersPageDataSourceFactory
-import com.paging.basepaginglibrary.ui.main.paging.PAGE_MAX_ELEMENTS
-import com.paging.basepaginglibrary.ui.main.paging.Param
-import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
-import kotlinx.coroutines.CoroutineScope
+import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.PAGE_MAX_ELEMENTS
+import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.Param
 
 /**
  * View model responsible for preparing and managing the data for [CharactersListFragment].
@@ -24,6 +22,7 @@ class CharactersListViewModel : ViewModel() {
 
     protected val dataSourceFactory =
         CharactersPageDataSourceFactory<Param>(
+//            CoroutineScope(Dispatchers.IO + SupervisorJob()),
             viewModelScope,
             CharacterItemMapper(),
             Injection.provideMarvelRepository()

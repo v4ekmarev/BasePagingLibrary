@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.paging.basepaginglibrary.ui.main.model.CharacterItem
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
+import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.CharactersPageKeyedDataSource
+import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.Param
 import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
 import kotlinx.coroutines.CoroutineScope
 
@@ -19,8 +21,8 @@ class CharactersPageDataSourceFactory<P> constructor(
     private val repository: MarvelRepository,
 ) : DataSource.Factory<Int, CharacterItem>() {
 
-    var sourceLiveData = MutableLiveData<CharactersPageDataSource>()
-    private var dataSource: CharactersPageDataSource? = null
+    var sourceLiveData = MutableLiveData<CharactersPageKeyedDataSource>()
+    private var keyedDataSource: CharactersPageKeyedDataSource? = null
 
     private var param: P? = null
 
@@ -31,10 +33,10 @@ class CharactersPageDataSourceFactory<P> constructor(
      * @see DataSource.Factory.create
      */
     override fun create(): DataSource<Int, CharacterItem> {
-        dataSource = CharactersPageDataSource(repository, scope, mapper)
-        param?.let { dataSource?.param = it as Param }
-        sourceLiveData.postValue(dataSource)
-        return dataSource as CharactersPageDataSource
+        keyedDataSource = CharactersPageKeyedDataSource(repository, scope, mapper)
+        param?.let { keyedDataSource?.param = it as Param }
+        sourceLiveData.postValue(keyedDataSource)
+        return keyedDataSource as CharactersPageKeyedDataSource
     }
 
     /**
@@ -56,6 +58,6 @@ class CharactersPageDataSourceFactory<P> constructor(
      */
     fun setParam(param: P) {
         this.param = param
-        dataSource?.param = param as Param
+        keyedDataSource?.param = param as Param
     }
 }

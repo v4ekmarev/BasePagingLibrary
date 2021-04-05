@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.base.paging
+package com.paging.basepage.paging
 
 /**
  * Different states for [CharactersListFragment].

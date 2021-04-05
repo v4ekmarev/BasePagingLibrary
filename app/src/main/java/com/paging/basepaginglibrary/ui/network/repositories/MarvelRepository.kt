@@ -3,6 +3,9 @@ package com.paging.basepaginglibrary.ui.network.repositories
 import com.paging.basepaginglibrary.ui.network.BaseResponse
 import com.paging.basepaginglibrary.ui.network.MarvelService
 import com.paging.basepaginglibrary.ui.network.response.CharacterResponse
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import java.security.MessageDigest
 
 private const val API_PUBLIC_KEY = "44d40ff9f5faf3ea541e326c1a154d84"
@@ -48,6 +51,19 @@ class MarvelRepository(
             offset = offset,
             limit = limit
         )
+    }
+
+    fun getCharactersFlow(offset: Int, limit: Int): Flow<BaseResponse<CharacterResponse>> {
+        val timestamp = System.currentTimeMillis().toString()
+        return flow {
+             emit(service.getCharacters(
+                apiKey = API_PUBLIC_KEY,
+                hash = generateApiHash(timestamp),
+                timestamp = timestamp,
+                offset = offset,
+                limit = limit
+            ))
+        }
     }
 
     // ============================================================================================

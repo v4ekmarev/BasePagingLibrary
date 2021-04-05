@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.paging.basepage.paging.BasePagedListAdapter
+import com.paging.basepage.paging.ListAdapterState
 import com.paging.basepaginglibrary.ui.base.OnClickItem
-import com.paging.basepaginglibrary.ui.base.paging.BasePagedListAdapter
-import com.paging.basepaginglibrary.ui.base.paging.ListAdapterState
 import com.paging.basepaginglibrary.ui.main.adapter.holders.CharacterViewHolder
 import com.paging.basepaginglibrary.ui.main.adapter.holders.ErrorViewHolder
 import com.paging.basepaginglibrary.ui.main.adapter.holders.LoadingViewHolder
@@ -21,7 +21,7 @@ internal enum class ItemView(val type: Int, val span: Int) {
     ERROR(type = 2, span = 2);
 
     companion object {
-        fun valueOf(type: Int): ItemView? = values().first { it.type == type }
+        fun valueOf(type: Int): ItemView = values().first { it.type == type }
     }
 }
 
@@ -61,9 +61,9 @@ class CharactersListAdapter : BasePagedListAdapter<CharacterItem>(
         viewType: Int
     ): RecyclerView.ViewHolder =
         when (ItemView.valueOf(viewType)) {
-            ItemView.CHARACTER -> CharacterViewHolder(inflater, parent)
-            ItemView.LOADING -> LoadingViewHolder(inflater, parent)
-            else -> ErrorViewHolder(inflater, parent)
+            ItemView.CHARACTER -> CharacterViewHolder(inflater)
+            ItemView.LOADING -> LoadingViewHolder(inflater)
+            else -> ErrorViewHolder(inflater)
         }
 
     /**
@@ -106,6 +106,19 @@ class CharactersListAdapter : BasePagedListAdapter<CharacterItem>(
             ItemView.CHARACTER -> getItem(position)?.id ?: -1L
             ItemView.LOADING -> 0L
             ItemView.ERROR -> 1L
+        }
+
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     * @see BasePagedListAdapter.getItemCount
+     */
+    override fun getItemCount() =
+        if (state.hasExtraRow) {
+            super.getItemCount() + 1
+        } else {
+            super.getItemCount()
         }
 
     /**

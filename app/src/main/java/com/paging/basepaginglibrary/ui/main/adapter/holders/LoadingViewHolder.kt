@@ -12,10 +12,9 @@ import com.paging.basepaginglibrary.ui.base.BaseViewHolder
  * @see BaseViewHolder
  */
 class LoadingViewHolder(
-    inflater: LayoutInflater,
-    parent: ViewGroup
+    inflater: LayoutInflater
 ) : BaseViewHolder<ListItemLoadingBinding>(
-    binding = ListItemLoadingBinding.inflate(inflater, parent, false)
+    binding = ListItemLoadingBinding.inflate(inflater)
 ) {
     fun bind() {
 

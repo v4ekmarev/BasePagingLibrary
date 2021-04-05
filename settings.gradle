@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':basepage'
 rootProject.name = "BasePagingLibrary"

@@ -13,10 +13,9 @@ import com.paging.basepaginglibrary.ui.base.OnClickItem
  * @see BaseViewHolder
  */
 class ErrorViewHolder(
-    inflater: LayoutInflater,
-    parent: ViewGroup
+    inflater: LayoutInflater
 ) : BaseViewHolder<ListItemErrorBinding>(
-    binding = ListItemErrorBinding.inflate(inflater, parent, false)
+    binding = ListItemErrorBinding.inflate(inflater)
 ) {
 
     fun bind(clickRetryAdd: OnClickItem<Void?>? = null) = with(binding) {

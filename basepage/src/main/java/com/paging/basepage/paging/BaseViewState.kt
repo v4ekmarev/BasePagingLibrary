@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.base.paging
+package com.paging.basepage.paging
 
 /**
  * Base state interface to describe different state of the view.

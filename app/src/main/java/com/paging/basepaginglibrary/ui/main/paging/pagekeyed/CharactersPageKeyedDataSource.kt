@@ -1,8 +1,8 @@
-package com.paging.basepaginglibrary.ui.main.paging
+package com.paging.basepaginglibrary.ui.main.paging.pagekeyed
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.paging.basepaginglibrary.ui.base.paging.NetworkState
+import com.paging.basepage.paging.NetworkState
 import com.paging.basepaginglibrary.ui.main.model.CharacterItem
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
 import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
@@ -11,15 +11,33 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 const val PAGE_INIT_ELEMENTS = 0
-const val PAGE_MAX_ELEMENTS = 20
+const val PAGE_MAX_ELEMENTS = 50
 
+/**
+ * Этот DataSource подходит для общения со Storage, который вместе с очередной порцией данных передает
+ * нам какой-то ключ для получения следующей порции данных.
+
+Это может быть постраничная загрузка с параметром page. Мы просим данные, например, с page = 4.
+Storage возвращает нам их и сообщает, что следующую порцию можно получить, передав ему page с значением 5.
+
+Для числовых значений page это выглядит бессмысленным, потому что идет просто прибавление единицы.
+Но ключ может быть и текстовым. Например, так раньше работал API Youtube (не знаю, как сейчас).
+Т.е. мы ищем видео по какому-то поисковому запросу. Youtube возвращает нам первую порцию данных и
+с ними текстовый токен. В следующем запросе к Youtube мы передаем этот токен, чтобы получить следующую порцию результатов нашего поиска. И так далее.
+
+Также сервер может в качестве ключа вообще передавать готовую ссылку, которую надо будет использовать,
+чтобы получить следующую порцию данных.
+
+В общем, основной смысл в том, что следующий запрос данных мы сможем сделать, использовав для этого некий ключ,
+полученный в предыдущем запросе.
+ */
 /**
  * Incremental data loader for page-keyed content, where requests return keys for next/previous
  * pages. Obtaining paginated the Marvel characters.
  *
  * @see PageKeyedDataSource
  */
-class CharactersPageDataSource constructor(
+class CharactersPageKeyedDataSource constructor(
     private val repository: MarvelRepository,
     private val scope: CoroutineScope,
     private val mapper: CharacterItemMapper

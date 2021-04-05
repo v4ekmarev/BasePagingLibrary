@@ -15,10 +15,9 @@ import com.paging.basepaginglibrary.ui.main.model.CharacterItem
  * @see BaseViewHolder
  */
 class CharacterViewHolder(
-    inflater: LayoutInflater,
-    parent: ViewGroup
+    inflater: LayoutInflater
 ) : BaseViewHolder<ListItemCharacterBinding>(
-    binding = ListItemCharacterBinding.inflate(inflater, parent, false)
+    binding = ListItemCharacterBinding.inflate(inflater)
 ) {
 
     /**

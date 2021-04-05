@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.base.paging
+package com.paging.basepage.paging
 
 
 sealed class ListAdapterState(
@@ -8,7 +8,7 @@ sealed class ListAdapterState(
     /**
      * Listed the added characters into list.
      */
-    object Added : ListAdapterState(hasExtraRow = true)
+    object Added : ListAdapterState(hasExtraRow = false)
 
     /**
      * Loading for new characters to add into list.
