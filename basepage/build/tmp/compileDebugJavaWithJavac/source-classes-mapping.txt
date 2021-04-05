@@ -1,0 +1,2 @@
+com/paging/basepage/BuildConfig.java
+ com.paging.basepage.BuildConfig
