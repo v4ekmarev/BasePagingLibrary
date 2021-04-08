@@ -4,8 +4,8 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
-import com.paging.basepage.paging.ListViewState
-import com.paging.basepage.paging.NetworkState
+import com.paging.basepage.paging.states.ListViewState
+import com.paging.basepage.paging.states.NetworkState
 import com.paging.basepaginglibrary.Injection
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
 import com.paging.basepaginglibrary.ui.main.paging.CharactersPageDataSourceFactory

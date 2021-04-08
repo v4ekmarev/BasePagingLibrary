@@ -1,18 +1,13 @@
-package com.paging.basepaginglibrary.ui.main.paging.itemkeyeddatasource
+package com.paging.basepage.paging.datasource
 
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.ItemKeyedDataSource
 import androidx.paging.PageKeyedDataSource
 import com.paging.basepage.paging.states.NetworkState
-import com.paging.basepaginglibrary.ui.main.model.CharacterItem
-import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
-import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
+import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-const val PAGE_INIT_ELEMENTS = 0
-const val PAGE_MAX_ELEMENTS = 50
 
 /**
  * Этот DataSource подходит для общения со Storage, который вместе с очередной порцией данных передает
@@ -38,31 +33,18 @@ Storage возвращает нам их и сообщает, что следу�
  *
  * @see PageKeyedDataSource
  */
-class CharactersPageKeyedDataSource constructor(
-    private val repository: MarvelRepository,
+class PageKeyDataSource<Value> constructor(
+    private val request: suspend () -> MutableList<Value>,
     private val scope: CoroutineScope,
-    private val mapper: CharacterItemMapper
-) : ItemKeyedDataSource<Long, CharacterItem>() {
+) : PageKeyedDataSource<Int, Value>() {
 
     val networkState = MutableLiveData<NetworkState>()
 
-    var param = Param()
-
     var retry: (() -> Unit)? = null
 
-    /**
-     * Force retry last fetch operation in case it has ever been previously executed.
-     */
-    fun retry() {
-        retry?.invoke()
-    }
-
-    override fun getKey(item: CharacterItem): Long = item.id
-
-
     override fun loadInitial(
-        params: LoadInitialParams<Long>,
-        callback: LoadInitialCallback<CharacterItem>
+        params: LoadInitialParams<Int>,
+        callback: LoadInitialCallback<Int, Value>
     ) {
         networkState.postValue(NetworkState.Loading())
         scope.launch(
@@ -73,17 +55,18 @@ class CharactersPageKeyedDataSource constructor(
                 networkState.postValue(NetworkState.Error())
             }
         ) {
-            val response = repository.getCharacters(
-                offset = PAGE_INIT_ELEMENTS,
-                limit = PAGE_MAX_ELEMENTS
-            )
-            val data = mapper.map(response)
-            callback.onResult(data, 0, PAGE_MAX_ELEMENTS)
+
+            val data = request.invoke()
+            callback.onResult(data, null, PAGE_MAX_ELEMENTS)
             networkState.postValue(NetworkState.Success(isEmptyResponse = data.isEmpty()))
         }
     }
 
-    override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<CharacterItem>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Value>) {
+
+    }
+
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Value>) {
         networkState.postValue(NetworkState.Loading(true))
         scope.launch(
             CoroutineExceptionHandler { _, _ ->
@@ -93,22 +76,16 @@ class CharactersPageKeyedDataSource constructor(
                 networkState.postValue(NetworkState.Error(true))
             }
         ) {
-//            val response = repository.getCharacters(
-//                offset = params.key,
-//                limit = PAGE_MAX_ELEMENTS
-//            )
-//            val data = mapper.map(response)
-            val data = mutableListOf<CharacterItem>()
-            callback.onResult(data)
+            val data = request.invoke()
+            callback.onResult(data, params.key + PAGE_MAX_ELEMENTS)
             networkState.postValue(NetworkState.Success(true, data.isEmpty()))
         }
+
+        /**
+         * Force retry last fetch operation in case it has ever been previously executed.
+         */
+        fun retry() {
+            retry?.invoke()
+        }
     }
-
-    override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<CharacterItem>) {
-
-    }
-
 }
-
-data class Param(val limit: Int = 50, val keyOffset: String= "")
-

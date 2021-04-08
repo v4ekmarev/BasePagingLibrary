@@ -2,7 +2,7 @@ package com.paging.basepaginglibrary.ui.main.paging.pagekeyed
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
-import com.paging.basepage.paging.NetworkState
+import com.paging.basepage.paging.states.NetworkState
 import com.paging.basepaginglibrary.ui.main.model.CharacterItem
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
 import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository

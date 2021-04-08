@@ -1,15 +1,10 @@
-package com.paging.basepaginglibrary.ui.main.paging.positional
+package com.paging.basepage.paging.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PositionalDataSource
 import com.paging.basepage.paging.states.NetworkState
-import com.paging.basepaginglibrary.ui.main.model.CharacterItem
-import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
-import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.PAGE_INIT_ELEMENTS
-import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.PAGE_MAX_ELEMENTS
-import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.Param
-import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
+import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -29,51 +24,18 @@ import kotlinx.coroutines.launch
  *
  * @see PageKeyedDataSource
  */
-class CharactersPositionDataSource constructor(
-    private val repository: MarvelRepository,
+class PositionDataSource<Value> constructor(
+    private val request: suspend ()-> MutableList<Value>,
     private val scope: CoroutineScope,
-    private val mapper: CharacterItemMapper
-) : PositionalDataSource<CharacterItem>() {
+) : PositionalDataSource<Value>() {
 
     val networkState = MutableLiveData<NetworkState>()
 
-    var param = Param()
-
     var retry: (() -> Unit)? = null
-
-    /**
-     * Load initial data.
-     *
-     * @param params Parameters for initial load, including requested load size.
-     * @param callback Callback that receives initial load data.
-     * @see PageKeyedDataSource.loadInitial
-     */
-//    override fun loadInitial(
-//        params: LoadInitialParams<Int>,
-//        callback: LoadInitialCallback<Int, CharacterItem>
-//    ) {
-//        networkState.postValue(NetworkState.Loading())
-//        scope.launch(
-//            CoroutineExceptionHandler { _, _ ->
-//                retry = {
-//                    loadInitial(params, callback)
-//                }
-//                networkState.postValue(NetworkState.Error())
-//            }
-//        ) {
-//            val response = repository.getCharacters(
-//                offset = PAGE_INIT_ELEMENTS,
-//                limit = PAGE_MAX_ELEMENTS
-//            )
-//            val data = mapper.map(response)
-//            callback.onResult(data, null, PAGE_MAX_ELEMENTS)
-//            networkState.postValue(NetworkState.Success(isEmptyResponse = data.isEmpty()))
-//        }
-//    }
 
     override fun loadInitial(
         params: LoadInitialParams,
-        callback: LoadInitialCallback<CharacterItem>
+        callback: LoadInitialCallback<Value>
     ) {
         networkState.postValue(NetworkState.Loading())
         scope.launch(
@@ -84,17 +46,13 @@ class CharactersPositionDataSource constructor(
                 networkState.postValue(NetworkState.Error())
             }
         ) {
-            val response = repository.getCharacters(
-                offset = PAGE_INIT_ELEMENTS,
-                limit = PAGE_MAX_ELEMENTS
-            )
-            val data = mapper.map(response)
+            val data = request.invoke()
             callback.onResult(data, 0, PAGE_MAX_ELEMENTS)
             networkState.postValue(NetworkState.Success(isEmptyResponse = data.isEmpty()))
         }
     }
 
-    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<CharacterItem>) {
+    override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Value>) {
         networkState.postValue(NetworkState.Loading(true))
         scope.launch(
             CoroutineExceptionHandler { _, _ ->
@@ -104,11 +62,7 @@ class CharactersPositionDataSource constructor(
                 networkState.postValue(NetworkState.Error(true))
             }
         ) {
-            val response = repository.getCharacters(
-                offset = params.loadSize,
-                limit = PAGE_MAX_ELEMENTS
-            )
-            val data = mapper.map(response)
+            val data = request.invoke()
             callback.onResult(data)
             networkState.postValue(NetworkState.Success(true, data.isEmpty()))
         }
@@ -121,6 +75,3 @@ class CharactersPositionDataSource constructor(
         retry?.invoke()
     }
 }
-
-data class Param(val limit: Int = 50, val keyOffset: String)
-

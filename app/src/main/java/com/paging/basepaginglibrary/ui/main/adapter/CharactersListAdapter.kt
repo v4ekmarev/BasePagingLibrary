@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.paging.basepage.paging.BasePagedListAdapter
-import com.paging.basepage.paging.ListAdapterState
+import com.paging.basepage.paging.states.ListAdapterState
 import com.paging.basepaginglibrary.ui.base.OnClickItem
 import com.paging.basepaginglibrary.ui.main.adapter.holders.CharacterViewHolder
 import com.paging.basepaginglibrary.ui.main.adapter.holders.ErrorViewHolder
