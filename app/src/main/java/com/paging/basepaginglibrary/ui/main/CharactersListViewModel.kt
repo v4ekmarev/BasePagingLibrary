@@ -1,16 +1,15 @@
 package com.paging.basepaginglibrary.ui.main
 
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
+import com.paging.basepage.paging.datasourcefactory.PageKeyDataSourceFactory
 import com.paging.basepage.paging.states.ListViewState
-import com.paging.basepage.paging.states.NetworkState
 import com.paging.basepaginglibrary.Injection
+import com.paging.basepaginglibrary.ui.main.model.CharacterItem
 import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
-import com.paging.basepaginglibrary.ui.main.paging.CharactersPageDataSourceFactory
-import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.PAGE_MAX_ELEMENTS
-import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.Param
 
 /**
  * View model responsible for preparing and managing the data for [CharactersListFragment].
@@ -19,43 +18,18 @@ import com.paging.basepaginglibrary.ui.main.paging.pagekeyed.Param
  */
 class CharactersListViewModel : ViewModel() {
 
-
-    protected val dataSourceFactory =
-        CharactersPageDataSourceFactory<Param>(
-//            CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            viewModelScope,
-            CharacterItemMapper(),
-            Injection.provideMarvelRepository()
+    private val dataSourceFactory =
+        PageKeyDataSourceFactory(
+            scope = viewModelScope,
+            request =  suspend { createRequest() }
         )
 
-    private val networkState = Transformations.switchMap(dataSourceFactory.sourceLiveData) {
-        it.networkState
+    fun state() : LiveData<ListViewState> {
+        return dataSourceFactory.getListState()
     }
 
-    val data = LivePagedListBuilder(dataSourceFactory, PAGE_MAX_ELEMENTS).build()
-    val state = Transformations.map(networkState) {
-        when (it) {
-            is NetworkState.Success ->
-                if (it.isAdditional && it.isEmptyResponse) {
-                    ListViewState.NoMoreElements
-                } else if (it.isEmptyResponse) {
-                    ListViewState.Empty
-                } else {
-                    ListViewState.Loaded
-                }
-            is NetworkState.Loading ->
-                if (it.isAdditional) {
-                    ListViewState.AddLoading
-                } else {
-                    ListViewState.Loading
-                }
-            is NetworkState.Error ->
-                if (it.isAdditional) {
-                    ListViewState.AddError
-                } else {
-                    ListViewState.Error
-                }
-        }
+    fun getData() : LiveData<PagedList<CharacterItem>> {
+        return dataSourceFactory.data
     }
 
     /**
@@ -71,4 +45,17 @@ class CharactersListViewModel : ViewModel() {
     fun retryAddCharactersList() {
         dataSourceFactory.retry()
     }
+
+    private suspend inline fun createRequest(): MutableList<CharacterItem> {
+        val repository = Injection.provideMarvelRepository()
+        val response = repository.getCharacters(
+            offset = 0,
+            limit = PAGE_MAX_ELEMENTS
+        )
+        return CharacterItemMapper().map(response).toMutableList()
+    }
+}
+
+interface Callback {
+    fun offset(): Int = 0
 }

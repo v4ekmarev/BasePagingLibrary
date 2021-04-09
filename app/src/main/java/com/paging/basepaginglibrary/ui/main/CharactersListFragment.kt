@@ -39,7 +39,7 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
             (layoutManager as? GridLayoutManager)?.spanSizeLookup = viewAdapter.getSpanSizeLookup()
         }
 
-        viewModel.state.observe(viewLifecycleOwner, { viewState ->
+        viewModel.state().observe(viewLifecycleOwner, { viewState ->
             Log.d("TASD", viewState.toString())
             Log.d("TASD", viewAdapter.itemCount.toString())
 
@@ -66,7 +66,7 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner, {
+        viewModel.getData().observe(viewLifecycleOwner, {
             viewAdapter.submitList(it)
         })
     }

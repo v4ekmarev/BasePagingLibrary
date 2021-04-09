@@ -1,12 +1,11 @@
-package com.paging.basepage.paging.datasource//package com.paging.basepage.paging
+//package com.paging.basepage.paging.datasource
 //
 //import androidx.lifecycle.MutableLiveData
 //import androidx.paging.ItemKeyedDataSource
 //import androidx.paging.PageKeyedDataSource
+//import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
+//import com.paging.basepage.paging.Params
 //import com.paging.basepage.paging.states.NetworkState
-//import com.paging.basepaginglibrary.ui.main.model.CharacterItem
-//import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
-//import com.paging.basepaginglibrary.ui.network.repositories.MarvelRepository
 //import kotlinx.coroutines.CoroutineExceptionHandler
 //import kotlinx.coroutines.CoroutineScope
 //import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ package com.paging.basepage.paging.datasource//package com.paging.basepage.pagin
 // *
 // * @see PageKeyedDataSource
 // */
-//class ItemKeyedDataSource<Key, Value :  Params> constructor(
+//class ItemKeyedDataSource<Key, Value : Params> constructor(
 //    private val request: suspend () -> MutableList<Value>,
 //    private val scope: CoroutineScope,
 //) : ItemKeyedDataSource<Key, Value>() {
@@ -52,7 +51,7 @@ package com.paging.basepage.paging.datasource//package com.paging.basepage.pagin
 //        retry?.invoke()
 //    }
 //
-//    override fun getKey(item: Value): Key = item.getKey()
+//    override fun getKey(item: Value): Key = (item as Params).getKey()
 //
 //
 //    override fun loadInitial(

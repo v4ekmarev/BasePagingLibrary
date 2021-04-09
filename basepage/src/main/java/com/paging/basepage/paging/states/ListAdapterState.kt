@@ -6,9 +6,14 @@ sealed class ListAdapterState(
 ) {
 
     /**
+     * Listed the init for empty adapter
+     */
+    object Init : ListAdapterState(hasExtraRow = false)
+
+    /**
      * Listed the added characters into list.
      */
-    object Added : ListAdapterState(hasExtraRow = false)
+    object Added : ListAdapterState(hasExtraRow = true)
 
     /**
      * Loading for new characters to add into list.

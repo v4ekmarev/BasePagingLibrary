@@ -36,7 +36,7 @@ class CharactersListAdapter : BasePagedListAdapter<CharacterItem>(
     contentsSame = { old, new -> old == new }
 ) {
 
-    private var state: ListAdapterState = ListAdapterState.Added
+    private var state: ListAdapterState = ListAdapterState.Init
 
     private var clickRetryAdd: OnClickItem<Void?>? = null
 
