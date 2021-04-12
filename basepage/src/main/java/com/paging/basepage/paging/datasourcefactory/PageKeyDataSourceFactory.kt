@@ -3,7 +3,6 @@ package com.paging.basepage.paging.datasourcefactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
@@ -21,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
  */
 class PageKeyDataSourceFactory<Value>(
     private val scope: CoroutineScope,
-    private var request: suspend () -> MutableList<Value>
+    private var request: suspend (offset: Int) -> MutableList<Value>
 ) : DataSource.Factory<Int, Value>() {
 
     var sourceLiveData = MutableLiveData<PageKeyDataSource<Value>>()
@@ -41,9 +40,9 @@ class PageKeyDataSourceFactory<Value>(
         }
     }
 
-    fun setRequest(request: suspend () -> MutableList<Value>) {
-        this.request = request
-    }
+//    fun setRequest(request: suspend () -> MutableList<Value>) {
+//        this.request = request
+//    }
 
     val data = LivePagedListBuilder(this, PAGE_MAX_ELEMENTS).build()
 

@@ -1,5 +1,6 @@
 package com.paging.basepaginglibrary.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,17 +19,20 @@ import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
  */
 class CharactersListViewModel : ViewModel() {
 
+    var request: suspend (Int) -> MutableList<CharacterItem> =
+        { offset: Int -> createRequest(offset) }
+
     private val dataSourceFactory =
         PageKeyDataSourceFactory(
             scope = viewModelScope,
-            request =  suspend { createRequest() }
+            request = request
         )
 
-    fun state() : LiveData<ListViewState> {
+    fun state(): LiveData<ListViewState> {
         return dataSourceFactory.getListState()
     }
 
-    fun getData() : LiveData<PagedList<CharacterItem>> {
+    fun getData(): LiveData<PagedList<CharacterItem>> {
         return dataSourceFactory.data
     }
 
@@ -46,16 +50,17 @@ class CharactersListViewModel : ViewModel() {
         dataSourceFactory.retry()
     }
 
-    private suspend inline fun createRequest(): MutableList<CharacterItem> {
+    private suspend inline fun createRequest(offset: Int): MutableList<CharacterItem> {
         val repository = Injection.provideMarvelRepository()
+        Log.d("TAG", offset.toString())
         val response = repository.getCharacters(
-            offset = 0,
+            offset = offset,
             limit = PAGE_MAX_ELEMENTS
         )
         return CharacterItemMapper().map(response).toMutableList()
     }
 }
 
-interface Callback {
-    fun offset(): Int = 0
+public class IntTransformer : (Int) -> Int {
+    override operator fun invoke(x: Int): Int = TODO()
 }

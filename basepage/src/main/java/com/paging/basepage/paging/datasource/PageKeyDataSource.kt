@@ -33,8 +33,8 @@ Storage возвращает нам их и сообщает, что следу�
  *
  * @see PageKeyedDataSource
  */
-class PageKeyDataSource<Value> constructor(
-    private val request: suspend () -> MutableList<Value>,
+class PageKeyDataSource<Value>(
+    private val request: suspend (offset: Int) -> MutableList<Value>,
     private val scope: CoroutineScope,
 ) : PageKeyedDataSource<Int, Value>() {
 
@@ -55,8 +55,7 @@ class PageKeyDataSource<Value> constructor(
                 networkState.postValue(NetworkState.Error())
             }
         ) {
-
-            val data = request.invoke()
+            val data = request.invoke(0)
             callback.onResult(data, null, PAGE_MAX_ELEMENTS)
             networkState.postValue(NetworkState.Success(isEmptyResponse = data.isEmpty()))
         }
@@ -76,7 +75,7 @@ class PageKeyDataSource<Value> constructor(
                 networkState.postValue(NetworkState.Error(true))
             }
         ) {
-            val data = request.invoke()
+            val data = request.invoke(params.key)
             callback.onResult(data, params.key + PAGE_MAX_ELEMENTS)
             networkState.postValue(NetworkState.Success(true, data.isEmpty()))
         }
