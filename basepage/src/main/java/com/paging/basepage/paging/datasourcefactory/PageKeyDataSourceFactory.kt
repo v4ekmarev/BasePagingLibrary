@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
-import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
+import com.paging.basepage.paging.Constants.PAGE_MAX_ELEMENTS
 import com.paging.basepage.paging.TransformState
 import com.paging.basepage.paging.datasource.PageKeyDataSource
 import com.paging.basepage.paging.states.ListViewState
@@ -23,7 +23,7 @@ class PageKeyDataSourceFactory<Value>(
     private var request: suspend (offset: Int) -> MutableList<Value>
 ) : DataSource.Factory<Int, Value>() {
 
-    var sourceLiveData = MutableLiveData<PageKeyDataSource<Value>>()
+    private var sourceLiveData = MutableLiveData<PageKeyDataSource<Value>>()
     private var dataSource: PageKeyDataSource<Value>? = null
 
 

@@ -1,17 +1,14 @@
 package com.paging.basepage.paging
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.paging.basepage.paging.datasource.PageKeyDataSource
 import com.paging.basepage.paging.states.ListViewState
 import com.paging.basepage.paging.states.NetworkState
 
-class TransformState {
+internal class TransformState {
 
     companion object {
         fun transformState(data: LiveData<NetworkState>): LiveData<ListViewState> {
-
             return Transformations.map(data) {
                 when (it) {
                     is NetworkState.Success ->

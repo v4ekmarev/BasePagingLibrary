@@ -2,8 +2,8 @@ package com.paging.basepage.paging.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.paging.basepage.paging.Constants.PAGE_MAX_ELEMENTS
 import com.paging.basepage.paging.states.NetworkState
-import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ Storage возвращает нам их и сообщает, что следу�
  *
  * @see PageKeyedDataSource
  */
-class PageKeyDataSource<Value>(
+internal class PageKeyDataSource<Value>(
     private val request: suspend (offset: Int) -> MutableList<Value>,
     private val scope: CoroutineScope,
 ) : PageKeyedDataSource<Int, Value>() {

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
 import com.paging.basepage.paging.datasourcefactory.PageKeyDataSourceFactory
 import com.paging.basepage.paging.states.ListViewState
 import com.paging.basepaginglibrary.Injection
@@ -17,6 +16,10 @@ import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
  * @see ViewModel
  */
 class CharactersListViewModel : ViewModel() {
+
+    companion object {
+        private const val PAGE_MAX_ELEMENTS_CHARACTERS = 30
+    }
 
     var request: suspend (Int) -> MutableList<CharacterItem> =
         { offset: Int -> createRequest(offset) }
@@ -53,7 +56,7 @@ class CharactersListViewModel : ViewModel() {
         val repository = Injection.provideMarvelRepository()
         val response = repository.getCharacters(
             offset = offset,
-            limit = PAGE_MAX_ELEMENTS
+            limit = PAGE_MAX_ELEMENTS_CHARACTERS
         )
         return CharacterItemMapper().map(response).toMutableList()
     }

@@ -25,8 +25,7 @@ abstract class BasePagedListAdapter<T>(
     override fun areContentsTheSame(old: T, new: T): Boolean = contentsSame(old, new)
 }) {
 
-    @VisibleForTesting(otherwise = PRIVATE)
-    internal var recyclerView: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
 
     init {
         // Avoid That RecyclerView’s Views are Blinking when notifyDataSetChanged.
