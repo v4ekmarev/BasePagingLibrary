@@ -1,6 +1,5 @@
 package com.paging.basepaginglibrary.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -52,15 +51,10 @@ class CharactersListViewModel : ViewModel() {
 
     private suspend inline fun createRequest(offset: Int): MutableList<CharacterItem> {
         val repository = Injection.provideMarvelRepository()
-        Log.d("TAG", offset.toString())
         val response = repository.getCharacters(
             offset = offset,
             limit = PAGE_MAX_ELEMENTS
         )
         return CharacterItemMapper().map(response).toMutableList()
     }
-}
-
-public class IntTransformer : (Int) -> Int {
-    override operator fun invoke(x: Int): Int = TODO()
 }

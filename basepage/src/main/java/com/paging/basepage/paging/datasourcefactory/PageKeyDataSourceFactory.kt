@@ -40,9 +40,9 @@ class PageKeyDataSourceFactory<Value>(
         }
     }
 
-//    fun setRequest(request: suspend () -> MutableList<Value>) {
-//        this.request = request
-//    }
+    fun setRequest(request: suspend (offset: Int) -> MutableList<Value>) {
+        this.request = request
+    }
 
     val data = LivePagedListBuilder(this, PAGE_MAX_ELEMENTS).build()
 

@@ -97,9 +97,9 @@ abstract class BasePagedListAdapter<T>(
      */
     override fun submitList(pagedList: PagedList<T>?) {
         super.submitList(pagedList)
-//        if (pagedList.isNullOrEmpty()) {
+        if (pagedList.isNullOrEmpty()) {
             // Fix recycle view not scrolling to the top after refresh the data source.
             recyclerView?.scrollToPosition(0)
-//        }
+        }
     }
 }
