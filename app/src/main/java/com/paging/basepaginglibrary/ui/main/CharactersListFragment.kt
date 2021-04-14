@@ -40,8 +40,6 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
         }
 
         viewModel.state().observe(viewLifecycleOwner, { viewState ->
-            Log.d("TASD", viewState.toString())
-            Log.d("TASD", viewAdapter.itemCount.toString())
 
             when (viewState) {
                 is ListViewState.Loaded -> {
@@ -69,9 +67,5 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
         viewModel.getData().observe(viewLifecycleOwner, {
             viewAdapter.submitList(it)
         })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
