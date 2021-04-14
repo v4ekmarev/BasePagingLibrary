@@ -4,7 +4,6 @@
 //import androidx.paging.ItemKeyedDataSource
 //import androidx.paging.PageKeyedDataSource
 //import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
-//import com.paging.basepage.paging.Params
 //import com.paging.basepage.paging.states.NetworkState
 //import kotlinx.coroutines.CoroutineExceptionHandler
 //import kotlinx.coroutines.CoroutineScope
@@ -34,13 +33,12 @@
 // *
 // * @see PageKeyedDataSource
 // */
-//class ItemKeyedDataSource<Key, Value : Params> constructor(
+//class ItemKeyedDataSource<Key, Value> constructor(
 //    private val request: suspend () -> MutableList<Value>,
 //    private val scope: CoroutineScope,
 //) : ItemKeyedDataSource<Key, Value>() {
 //
 //    val networkState = MutableLiveData<NetworkState>()
-//
 //
 //    var retry: (() -> Unit)? = null
 //
