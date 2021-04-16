@@ -2,7 +2,7 @@ package com.paging.basepaginglibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.paging.basepaginglibrary.ui.main.CharactersListFragment
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.CharactersListFragment
 
 class MainActivity : AppCompatActivity() {
 

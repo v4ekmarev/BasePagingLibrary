@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.main.model
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model
 
 import com.paging.basepaginglibrary.ui.network.BaseResponse
 import com.paging.basepaginglibrary.ui.network.response.CharacterResponse

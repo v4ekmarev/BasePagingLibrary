@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.main.model
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model
 
 data class CharacterItem(
     val id: Long,

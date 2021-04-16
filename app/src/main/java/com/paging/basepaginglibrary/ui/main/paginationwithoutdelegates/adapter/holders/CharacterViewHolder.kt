@@ -1,13 +1,11 @@
-package com.paging.basepaginglibrary.ui.main.adapter.holders
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.holders
 
 import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.paging.basepaginglibrary.databinding.ListItemCharacterBinding
 import com.paging.basepaginglibrary.ui.base.BaseViewHolder
-import com.paging.basepaginglibrary.ui.main.model.CharacterItem
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model.CharacterItem
 
 /**
  * Class describes character view and metadata about its place within the [RecyclerView].

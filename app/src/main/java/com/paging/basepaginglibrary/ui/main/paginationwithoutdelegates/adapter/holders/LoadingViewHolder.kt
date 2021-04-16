@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.main.adapter.holders
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

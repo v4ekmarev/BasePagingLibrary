@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.main.adapter
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paging.basepage.paging.BasePagedListAdapter
 import com.paging.basepage.paging.states.ListAdapterState
 import com.paging.basepaginglibrary.ui.base.OnClickItem
-import com.paging.basepaginglibrary.ui.main.adapter.holders.CharacterViewHolder
-import com.paging.basepaginglibrary.ui.main.adapter.holders.ErrorViewHolder
-import com.paging.basepaginglibrary.ui.main.adapter.holders.LoadingViewHolder
-import com.paging.basepaginglibrary.ui.main.model.CharacterItem
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.holders.CharacterViewHolder
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.holders.ErrorViewHolder
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.holders.LoadingViewHolder
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model.CharacterItem
 
 /**
  * Enum class containing the different type of cell view, with the configuration.

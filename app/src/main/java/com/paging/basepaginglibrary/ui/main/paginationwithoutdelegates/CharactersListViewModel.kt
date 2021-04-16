@@ -1,4 +1,4 @@
-package com.paging.basepaginglibrary.ui.main
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +8,8 @@ import com.paging.basepage.paging.PAGE_MAX_ELEMENTS
 import com.paging.basepage.paging.datasourcefactory.PageKeyDataSourceFactory
 import com.paging.basepage.paging.states.ListViewState
 import com.paging.basepaginglibrary.Injection
-import com.paging.basepaginglibrary.ui.main.model.CharacterItem
-import com.paging.basepaginglibrary.ui.main.model.CharacterItemMapper
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model.CharacterItem
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model.CharacterItemMapper
 
 /**
  * View model responsible for preparing and managing the data for [CharactersListFragment].

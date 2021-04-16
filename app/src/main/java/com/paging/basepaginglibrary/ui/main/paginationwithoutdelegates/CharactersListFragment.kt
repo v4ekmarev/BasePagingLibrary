@@ -1,7 +1,6 @@
-package com.paging.basepaginglibrary.ui.main
+package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,7 @@ import com.paging.basepage.paging.states.ListAdapterState
 import com.paging.basepage.paging.states.ListViewState
 import com.paging.basepaginglibrary.R
 import com.paging.basepaginglibrary.databinding.MainFragmentBinding
-import com.paging.basepaginglibrary.ui.main.adapter.CharactersListAdapter
+import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.CharactersListAdapter
 
 class CharactersListFragment : Fragment(R.layout.main_fragment) {
 
