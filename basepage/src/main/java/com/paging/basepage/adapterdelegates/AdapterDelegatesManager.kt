@@ -64,7 +64,7 @@ class AdapterDelegatesManager<T> {
     /**
      * Creates a AdapterDelegatesManager without any delegates.
      */
-    constructor() {}
+    constructor()
 
     /**
      * Creates a AdapterDelegatesManager which already has the gived delegates added to it.
@@ -144,9 +144,6 @@ class AdapterDelegatesManager<T> {
         viewType: Int, allowReplacingDelegate: Boolean,
         delegate: AdapterDelegate<T>
     ): AdapterDelegatesManager<T> {
-        if (delegate == null) {
-            throw NullPointerException("AdapterDelegate is null!")
-        }
         require(viewType != FALLBACK_DELEGATE_VIEW_TYPE) {
             ("The view type = "
                     + FALLBACK_DELEGATE_VIEW_TYPE

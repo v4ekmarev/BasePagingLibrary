@@ -15,6 +15,10 @@
  */
 package com.paging.basepage.adapterdelegates
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+
 /**
  * An adapter implementation designed for items organized in a [List]. This adapter
  * implementation is ready to go. All you have to do is to add [AdapterDelegate]s to the

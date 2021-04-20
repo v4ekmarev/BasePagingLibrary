@@ -15,6 +15,7 @@
  */
 package com.paging.basepage.adapterdelegates
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
@@ -65,7 +66,7 @@ abstract class AbsDelegationAdapter<T>
      * @param delegates Items to add
      * @since 4.1.0
      */
-    constructor(vararg delegates: AdapterDelegate<T>) : this(AdapterDelegatesManager<T>(*delegates)) {}
+    constructor(vararg delegates: AdapterDelegate<T>) : this(AdapterDelegatesManager<T>(*delegates))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return delegatesManager.onCreateViewHolder(parent, viewType)

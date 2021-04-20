@@ -9,7 +9,7 @@ import com.paging.basepage.paging.BasePagedListAdapter
 class PagedListDelegationAdapter<T>(
     itemsSame: (T, T) -> Boolean,
     contentsSame: (T, T) -> Boolean,
-    protected val delegatesManager: AdapterDelegatesManager<List<T>>
+    private val delegatesManager: AdapterDelegatesManager<List<T>>
 ) : BasePagedListAdapter<T>(itemsSame, contentsSame) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

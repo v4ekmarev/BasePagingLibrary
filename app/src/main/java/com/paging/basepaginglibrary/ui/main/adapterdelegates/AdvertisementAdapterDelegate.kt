@@ -27,10 +27,10 @@ import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableIt
 /**
  * @author Hannes Dorfmann
  */
-class AdvertisementAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
+class AdvertisementAdapterDelegate : AdapterDelegate<List<DisplayableItem>>() {
 
-    override fun isForViewType(items: List<DisplayableItem>?, position: Int): Boolean {
-        return items?.get(position) is Advertisement
+    override fun isForViewType(items: List<DisplayableItem>, position: Int): Boolean {
+        return items[position] is Advertisement
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, inflater: LayoutInflater): RecyclerView.ViewHolder {
@@ -51,6 +51,6 @@ class AdvertisementAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
         holder: RecyclerView.ViewHolder,
         payloads: List<Any?>
     ) {
-        TODO("Not yet implemented")
+
     }
 }

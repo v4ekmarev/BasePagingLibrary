@@ -29,10 +29,10 @@ import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.Dog
 /**
  * @author Hannes Dorfmann
  */
-class DogAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
+class DogAdapterDelegate : AdapterDelegate<List<DisplayableItem>>() {
 
-    override fun isForViewType(items: List<DisplayableItem>?, position: Int): Boolean {
-        return items?.get(position) is Dog
+    override fun isForViewType(items: List<DisplayableItem>, position: Int): Boolean {
+        return items[position] is Dog
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, inflater: LayoutInflater): RecyclerView.ViewHolder {

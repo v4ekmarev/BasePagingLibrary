@@ -27,11 +27,11 @@ import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.Cat
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableItem
 
 
-class CatAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
+class CatAdapterDelegate : AdapterDelegate<List<DisplayableItem>>() {
 
 
-    override fun isForViewType(items: List<DisplayableItem>?, position: Int): Boolean {
-        return items?.get(position) is Cat
+    override fun isForViewType(items: List<DisplayableItem>, position: Int): Boolean {
+        return items[position] is Cat
     }
 
     override fun onCreateViewHolder(
@@ -55,10 +55,6 @@ class CatAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
     }
 
     internal class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView
-
-        init {
-            name = itemView.findViewById<View>(R.id.name) as TextView
-        }
+        var name: TextView = itemView.findViewById<View>(R.id.name) as TextView
     }
 }

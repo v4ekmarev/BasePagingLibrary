@@ -27,10 +27,10 @@ import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableIt
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.Gecko
 
 
-class GeckoAdapterDelegate : AdapterDelegate<List<DisplayableItem>?>() {
+class GeckoAdapterDelegate : AdapterDelegate<List<DisplayableItem>>() {
 
-    override fun isForViewType(items: List<DisplayableItem>?, position: Int): Boolean {
-        return items?.get(position) is Gecko
+    override fun isForViewType(items: List<DisplayableItem>, position: Int): Boolean {
+        return items[position] is Gecko
     }
 
     override fun onCreateViewHolder(
