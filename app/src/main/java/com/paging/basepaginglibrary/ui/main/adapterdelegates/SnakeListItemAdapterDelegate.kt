@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.paging.basepage.adapterdelegates.AbsListItemAdapterDelegate
+import com.paging.adapterdelegates.AbsListItemAdapterDelegate
 import com.paging.basepaginglibrary.R
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableItem
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.Snake

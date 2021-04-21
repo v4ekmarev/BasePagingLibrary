@@ -8,8 +8,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.paging.basepage.adapterdelegates.AdapterDelegatesManager
-import com.paging.basepage.adapterdelegates.PagedListDelegationAdapter
+import com.paging.adapterdelegates.AdapterDelegatesManager
 import com.paging.basepaginglibrary.R
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.*
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableItem

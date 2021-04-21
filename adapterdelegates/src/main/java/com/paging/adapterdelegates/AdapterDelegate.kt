@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.paging.basepage.adapterdelegates
+package com.paging.adapterdelegates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

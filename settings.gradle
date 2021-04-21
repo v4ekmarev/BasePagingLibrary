@@ -1,2 +1,3 @@
+include ':adapterdelegates'
 include ':app', ':basepage'
 rootProject.name = "BasePagingLibrary"

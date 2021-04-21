@@ -1,4 +1,4 @@
-package com.paging.basepage.adapterdelegates
+package com.paging.adapterdelegates
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -7,7 +7,7 @@ class HorizontalLineItemDecoration(private val decorationProvider: ItemDecoratio
     RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        if (!decorationProvider.hasDivider(parent.getChildAdapterPosition(view))) return
+//        if (!decorationProvider.hasDivider())) return
         super.onDraw(c, parent, state)
     }
 

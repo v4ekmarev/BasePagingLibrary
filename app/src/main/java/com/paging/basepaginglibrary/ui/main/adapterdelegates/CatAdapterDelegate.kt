@@ -21,7 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.paging.basepage.adapterdelegates.AdapterDelegate
+import com.paging.adapterdelegates.AdapterDelegate
 import com.paging.basepaginglibrary.R
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.Cat
 import com.paging.basepaginglibrary.ui.main.adapterdelegates.model.DisplayableItem

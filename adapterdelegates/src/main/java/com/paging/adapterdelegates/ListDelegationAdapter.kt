@@ -13,11 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.paging.basepage.adapterdelegates
-
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+package com.paging.adapterdelegates
 
 /**
  * An adapter implementation designed for items organized in a [List]. This adapter

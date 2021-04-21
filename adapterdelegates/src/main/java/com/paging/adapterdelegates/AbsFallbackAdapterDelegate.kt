@@ -1,4 +1,4 @@
-package com.paging.basepage.adapterdelegates
+package com.paging.adapterdelegates
 
 /**
  * This class can be used as base class for a fallback delegate [ ][AdapterDelegatesManager.setFallbackDelegate].
