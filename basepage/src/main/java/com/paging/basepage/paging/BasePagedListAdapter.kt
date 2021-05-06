@@ -1,6 +1,7 @@
 package com.paging.basepage.paging
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
@@ -9,6 +10,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.paging.basepage.paging.states.ListAdapterState
 
 /**
  * Base paged list adapter to standardize and simplify initialization for this component.
@@ -28,10 +30,9 @@ abstract class BasePagedListAdapter<T>(
     @VisibleForTesting(otherwise = PRIVATE)
     internal var recyclerView: RecyclerView? = null
 
-    init {
-        // Avoid That RecyclerView’s Views are Blinking when notifyDataSetChanged.
-        super.setHasStableIds(true)
-    }
+    protected var state: ListAdapterState = ListAdapterState.Init
+
+    var clickRetryAdd: View.OnClickListener? = null
 
     /**
      * Called when RecyclerView needs a new [RecyclerView.ViewHolder] of the given type to
@@ -88,6 +89,21 @@ abstract class BasePagedListAdapter<T>(
         this.recyclerView = null
         super.onDetachedFromRecyclerView(recyclerView)
     }
+
+    fun submitState(newState: ListAdapterState) {
+        val oldState = state
+        state = newState
+        if (newState.hasExtraRow && oldState != newState) {
+            notifyItemChanged(itemCount - 1)
+        }
+    }
+
+    override fun getItemCount() =
+        if (state.hasExtraRow) {
+            super.getItemCount() + 1
+        } else {
+            super.getItemCount()
+        }
 
     /**
      * Set the new list to be displayed.
