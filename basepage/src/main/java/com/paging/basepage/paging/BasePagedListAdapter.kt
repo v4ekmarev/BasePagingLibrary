@@ -1,16 +1,12 @@
 package com.paging.basepage.paging
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.VisibleForTesting
-import androidx.annotation.VisibleForTesting.PRIVATE
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.paging.basepage.paging.states.ListAdapterState
 
 /**
  * Base paged list adapter to standardize and simplify initialization for this component.
@@ -19,20 +15,14 @@ import com.paging.basepage.paging.states.ListAdapterState
  * @param contentsSame Function called to check whether two items have the same data.
  * @see PagedListAdapter
  */
-abstract class BasePagedListAdapter<T>(
+abstract class BasePagedListAdapter<T : Any>(
     itemsSame: (T, T) -> Boolean,
     contentsSame: (T, T) -> Boolean
-) : PagedListAdapter<T, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<T>() {
+) : PagingDataAdapter<T, RecyclerView.ViewHolder>(object : DiffUtil.ItemCallback<T>() {
     override fun areItemsTheSame(old: T, new: T): Boolean = itemsSame(old, new)
     override fun areContentsTheSame(old: T, new: T): Boolean = contentsSame(old, new)
 }) {
 
-    @VisibleForTesting(otherwise = PRIVATE)
-    internal var recyclerView: RecyclerView? = null
-
-    protected var state: ListAdapterState = ListAdapterState.Init
-
-    var clickRetryAdd: View.OnClickListener? = null
 
     /**
      * Called when RecyclerView needs a new [RecyclerView.ViewHolder] of the given type to
@@ -67,55 +57,4 @@ abstract class BasePagedListAdapter<T>(
             inflater = LayoutInflater.from(parent.context),
             viewType = viewType
         )
-
-    /**
-     * Called by RecyclerView when it starts observing this Adapter.
-     *
-     * @param recyclerView The RecyclerView instance which started observing this adapter.
-     * @see PagedListAdapter.onAttachedToRecyclerView
-     */
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = recyclerView
-        super.onAttachedToRecyclerView(recyclerView)
-    }
-
-    /**
-     * Called by RecyclerView when it stops observing this Adapter.
-     *
-     * @param recyclerView The RecyclerView instance which stopped observing this adapter.
-     * @see PagedListAdapter.onDetachedFromRecyclerView
-     */
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = null
-        super.onDetachedFromRecyclerView(recyclerView)
-    }
-
-    fun submitState(newState: ListAdapterState) {
-        val oldState = state
-        state = newState
-        if (newState.hasExtraRow && oldState != newState) {
-            notifyItemChanged(itemCount - 1)
-        }
-    }
-
-    override fun getItemCount() =
-        if (state.hasExtraRow) {
-            super.getItemCount() + 1
-        } else {
-            super.getItemCount()
-        }
-
-    /**
-     * Set the new list to be displayed.
-     *
-     * @param pagedList The new list to be displayed.
-     * @see PagedListAdapter.submitList
-     */
-    override fun submitList(pagedList: PagedList<T>?) {
-        super.submitList(pagedList)
-        if (pagedList.isNullOrEmpty()) {
-            // Fix recycle view not scrolling to the top after refresh the data source.
-            recyclerView?.scrollToPosition(0)
-        }
-    }
 }

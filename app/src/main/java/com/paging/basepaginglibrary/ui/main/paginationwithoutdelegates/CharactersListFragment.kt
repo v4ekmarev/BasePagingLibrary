@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.justcashback.ims_justcash.ui.base.viewbindings.withrefceltion.viewBinding
-import com.paging.basepage.paging.states.ListAdapterState
-import com.paging.basepage.paging.states.ListViewState
+import com.paging.basepage.paging.LoadingAdapter
 import com.paging.basepaginglibrary.R
 import com.paging.basepaginglibrary.databinding.MainFragmentBinding
 import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.adapter.CharactersListAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class CharactersListFragment : Fragment(R.layout.main_fragment) {
 
@@ -30,41 +33,22 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
 
         viewModel = ViewModelProvider(this).get(CharactersListViewModel::class.java)
 
-        viewAdapter.setClickRetryAdd {
-            viewModel.retryAddCharactersList()
-        }
         mainFragmentBinding.charactersList.apply {
-            adapter = viewAdapter
-            (layoutManager as? GridLayoutManager)?.spanSizeLookup = viewAdapter.getSpanSizeLookup()
+            adapter = viewAdapter.withLoadStateFooter(footer = LoadingAdapter {
+                viewAdapter.retry()
+            })
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
-        viewModel.state().observe(viewLifecycleOwner, { viewState ->
+        viewAdapter.addLoadStateListener { state ->
+            mainFragmentBinding.loading.visibility =
+                if (state.source.refresh is LoadState.Loading) View.VISIBLE else View.INVISIBLE
+        }
 
-            when (viewState) {
-                is ListViewState.Loaded -> {
-                    mainFragmentBinding.loading.visibility = View.INVISIBLE
-                    viewAdapter.submitState(ListAdapterState.Added)
-                }
-                is ListViewState.AddLoading -> {
-                    viewAdapter.submitState(ListAdapterState.AddLoading)
-                }
-                is ListViewState.AddError -> {
-                    viewAdapter.submitState(ListAdapterState.AddError)
-                }
-                is ListViewState.NoMoreElements -> {
-                    viewAdapter.submitState(ListAdapterState.NoMore)
-                }
-                ListViewState.Empty -> TODO()
-                ListViewState.Error -> TODO()
-                ListViewState.Loading -> {
-                    mainFragmentBinding.loading.visibility = View.VISIBLE
-                }
-                ListViewState.Refreshing -> TODO()
+        lifecycleScope.launch {
+            viewModel.pagerFlow.collect {
+                viewAdapter.submitData(it)
             }
-        })
-
-        viewModel.getData().observe(viewLifecycleOwner, {
-            viewAdapter.submitList(it)
-        })
+        }
     }
 }
