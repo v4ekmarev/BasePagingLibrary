@@ -45,9 +45,11 @@ class CharactersListFragment : Fragment(R.layout.main_fragment) {
                 if (state.source.refresh is LoadState.Loading) View.VISIBLE else View.INVISIBLE
         }
 
+
         lifecycleScope.launch {
             viewModel.pagerFlow.collect {
-                viewAdapter.submitData(it)
+                viewAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+//                viewAdapter.submitData(it)
             }
         }
     }

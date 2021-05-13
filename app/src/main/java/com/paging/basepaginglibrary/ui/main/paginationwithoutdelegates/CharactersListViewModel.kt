@@ -1,6 +1,7 @@
 package com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.paging.basepage.paging.pager.PagerFlow
 import com.paging.basepaginglibrary.Injection
 import com.paging.basepaginglibrary.ui.main.paginationwithoutdelegates.model.CharacterItem
@@ -16,9 +17,15 @@ class CharactersListViewModel : ViewModel() {
     private var request: suspend (Int, Int) -> MutableList<CharacterItem> =
         { offset: Int, pageSize: Int -> createRequest(offset, pageSize) }
 
-    val pagerFlow = PagerFlow(
+    private val pager = PagerFlow(
         request = request
-    ).flow
+    )
+
+    val pagerFlow = pager.flow
+
+    fun setRequest() {
+
+    }
 
     private suspend inline fun createRequest(
         offset: Int,
